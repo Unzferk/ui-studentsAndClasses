@@ -1,0 +1,12 @@
+.container-student{
+    height: 100%;
+}
+
+.title-student{
+    color: #1933a6;
+}
+
+.msg-alert-student{
+    font-size: small;
+    color: crimson;
+}

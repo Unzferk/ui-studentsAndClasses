@@ -1,0 +1,10 @@
+.container-extended{
+    background-color: whitesmoke;
+    height: calc(100vh - 3px);
+    overflow: hidden;
+}
+
+.component{
+    background-color: white;
+    height: 560px;
+}

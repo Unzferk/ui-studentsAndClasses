@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { getStudents } from './redux/reducers/studentReducer';
+import { getStudents } from '../../redux/reducers/studentReducer';
 
 
-function App() {
+const Student = () => {
   const {students} = useSelector(state => state.students);
 
   const dispatch = useDispatch();
@@ -11,13 +11,13 @@ function App() {
   useEffect(() => {
     dispatch(getStudents());
   },[])
-  
 
   return (
     <div>
-      Hello world!!!
+      Student
     </div>
-  );
+    
+  )
 }
 
-export default App;
+export default Student

@@ -1,56 +1,60 @@
-import {put, takeLatest, all} from 'redux-saga/effects';
+import { put, takeLatest,all} from 'redux-saga/effects';
 import { getStudentsSuccess, postStudentsSuccess } from '../reducers/studentReducer';
 import axios from 'axios';
 import { getCoursesSuccess, postCoursesSuccess } from '../reducers/courseReducer';
+import { setFetchMessage } from '../reducers/global-message-reducer/fetchMessageReducer';
+import { POST_COURSE_FAILURE } from '../reducers/global-message-reducer/messages';
 
-function* obtainStudents(){
+function* obtainStudents() {
     const url = `${process.env.REACT_APP_API_URL}/v1/student`;
     const response = yield axios.get(url);
-    if(response.status == 200){
+    if (response.status === 200) {
         yield put(getStudentsSuccess(response.data));
     }
 }
-function* createStudent(action){
+function* createStudent(action) {
     const url = `${process.env.REACT_APP_API_URL}/v1/student`;
-    const response = yield axios.post(url,action.payload);
-    if(response.status == 201){
+    const response = yield axios.post(url, action.payload);
+    if (response.status === 201) {
         yield put(postStudentsSuccess(response.data));
     }
 }
-function* obtainCourses(){
+function* obtainCourses() {
     const url = `${process.env.REACT_APP_API_URL}/v1/course`;
-    const response = yield axios.get(url);
-    if(response.status == 200){
+    const response = yield axios.get(url); 
+        if(response.status === 200){
         yield put(getCoursesSuccess(response.data));
     }
 }
-function* createCourse(action){
+function* createCourse(action) {
     const url = `${process.env.REACT_APP_API_URL}/v1/course`;
-    const response = yield axios.post(url,action.payload);
-    if(response.status == 201){
+    const response = yield axios.post(url, action.payload);
+    if (response.status == 201) {
         yield put(postCoursesSuccess(response.data));
+    } else {
+        yield put(setFetchMessage({status: response.status, message:response.message, type: POST_COURSE_FAILURE}));
     }
 }
 
-function* getStudent(){
+function* getStudent() {
     yield takeLatest('students/getStudents', obtainStudents);
 }
-function* postStudent(){
+function* postStudent() {
     yield takeLatest('students/postStudent', createStudent);
 }
 
-function* getCourses(){
+function* getCourses() {
     yield takeLatest('courses/getCourses', obtainCourses);
 }
-function* postCourse(){
+function* postCourse() {
     yield takeLatest('courses/postCourse', createCourse);
 }
 
 export default function* rootSaga() {
     yield all([
-      getStudent(),
-      postStudent(),
-      getCourses(),
-      postCourse(),
+        getStudent(),
+        postStudent(),
+        getCourses(),
+        postCourse(),
     ]);
 }

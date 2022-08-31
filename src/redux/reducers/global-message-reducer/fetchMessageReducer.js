@@ -1,0 +1,21 @@
+import { createSlice } from '@reduxjs/toolkit'
+
+export const fetchMessageSlice = createSlice({
+    name: 'fetch',
+    initialState: {
+        status: "",
+        message: "",
+        type: "",
+    },
+    reducers:{
+        setFetchMessage: (state,action) =>{
+            state.status = action.payload.status;
+            state.message = action.payload.message;
+            state.type = action.payload.type;
+        }
+    }
+});
+
+export const { setFetchMessage } = fetchMessageSlice.actions;
+
+export default fetchMessageSlice.reducer;

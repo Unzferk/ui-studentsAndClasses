@@ -1,20 +1,26 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import {  getCourses, setCourseDetails, setStatus } from '../../../redux/reducers/courseReducer';
+import { POST_COURSE_SUCCESS, POST_COURSE_FAILURE, DEFAULT_FETCH_MESSAGE, DEFAULT_FETCH_STATUS, DEFAULT_FETCH_TYPE } from '../../../redux/reducers/global-message-reducer/messages';
+import { setFetchMessage } from '../../../redux/reducers/global-message-reducer/fetchMessageReducer';
 import './style.css'
 
 const CourseTable = () => {
-
+  
     const dispatch = useDispatch();
     const { courses } = useSelector(state => state.courses);
-    const { status } = useSelector(state => state.courses);
+    const { type, message } = useSelector(state => state.fetch);
 
     useEffect(() => {
-      if(status=="created"){
+      if(type===POST_COURSE_SUCCESS){
         dispatch(getCourses());
-        dispatch(setStatus(""));
+        dispatch(setFetchMessage({status:DEFAULT_FETCH_STATUS, message:DEFAULT_FETCH_MESSAGE, type:DEFAULT_FETCH_TYPE}));
       }
-    }, [status])
+      if(type===POST_COURSE_FAILURE){
+        alert("message: "+message);
+        dispatch(setFetchMessage({status:DEFAULT_FETCH_STATUS, message:DEFAULT_FETCH_MESSAGE, type:DEFAULT_FETCH_TYPE}));
+      }
+    }, [type])
     
 
     const setCourseInfo = (course) =>{

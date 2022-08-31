@@ -1,0 +1,10 @@
+.container-student__table{
+    height: 100%;
+}
+.table-students-overflow{
+    overflow-y: auto;
+    height: 92%;
+}
+.table-students-font-size{
+    font-size: small;
+}

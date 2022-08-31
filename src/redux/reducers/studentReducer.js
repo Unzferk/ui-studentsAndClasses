@@ -5,6 +5,7 @@ export const studentSlice = createSlice({
     initialState: {
         students: [],
         student: {},
+        studentDetails: {},
         isLoading: false
     },
     reducers:{
@@ -27,6 +28,10 @@ export const studentSlice = createSlice({
         },
         postStudentsFailure: (state)=>{
             state.isLoading = false;
+        },
+        setStudentDetails: (state,action) =>{
+            console.log(JSON.stringify(action.payload))
+            state.studentDetails = action.payload
         }
     }
 });
@@ -36,6 +41,7 @@ export const { getStudents,
                getStudentsFailure, 
                postStudent, 
                postStudentsSuccess, 
-               postStudentsFailure} = studentSlice.actions;
+               postStudentsFailure,
+               setStudentDetails} = studentSlice.actions;
 
 export default studentSlice.reducer;

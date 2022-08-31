@@ -1,0 +1,12 @@
+.container-course{
+    height: 100%;
+}
+
+.title-course{
+    color: #1933a6;
+}
+
+.msg-alert-course{
+    font-size: small;
+    color: crimson;
+}

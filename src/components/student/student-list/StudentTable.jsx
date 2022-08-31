@@ -1,11 +1,13 @@
 import React from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setStudentDetails } from '../../../redux/reducers/studentReducer';
 import './style.css'
 
-const StudentTable = ({ students }) => {
+const StudentTable = () => {
 
   const dispatch = useDispatch();
+
+  const { students } = useSelector(state => state.students);
 
   const setStudentInfo = (student) =>{
     dispatch(setStudentDetails(student));

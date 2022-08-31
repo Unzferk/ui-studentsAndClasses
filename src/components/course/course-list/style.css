@@ -1,0 +1,10 @@
+.container-course__table{
+    height: 100%;
+}
+.table-courses-overflow{
+    overflow-y: auto;
+    height: 92%;
+}
+.table-courses-font-size{
+    font-size: small;
+}

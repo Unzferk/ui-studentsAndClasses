@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CreateStudent from '../../components/student/create-student/CreateStudent';
 import StudentInfo from '../../components/student/student-info/StudentInfo';
 import StudentTable from '../../components/student/student-list/StudentTable';
@@ -7,13 +7,12 @@ import { getStudents } from '../../redux/reducers/studentReducer';
 import './style.css'
 
 const Student = () => {
-  const { students } = useSelector(state => state.students);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getStudents());
-  }, [])
+  }, [dispatch])
 
   return (
     <div className='container-fluid container-extended'>
@@ -24,7 +23,7 @@ const Student = () => {
               <CreateStudent/>
             </div>
             <div className='students-list'>
-              {students && <StudentTable students={students} />}
+              <StudentTable  />
             </div>
           </div>
         </div>

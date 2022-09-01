@@ -6,6 +6,7 @@ export const courseSlice = createSlice({
         courses: [],
         course: {},
         courseDetails: {},
+        studentsInCourse: [],
         isLoading: false,
     },
     reducers:{
@@ -28,6 +29,35 @@ export const courseSlice = createSlice({
         },
         setCourseDetails: (state,action) =>{
             state.courseDetails = action.payload
+        },
+        postStudentIntoCourse: (state)=>{
+            state.isLoading = true;
+        },
+        deleteStudentFromCourse: (state) =>{
+            state.isLoading = true;
+        },
+        courseIsLoadingTrue: (state)=>{
+            state.isLoading = true;
+        },
+        courseIsLoadingFalse: (state)=>{
+            state.isLoading = false;
+        },
+        getStudentsFromCourse:(state) =>{
+            state.isLoading = true;
+        },
+        getStudentsFromCourseSuccess:(state,action) =>{
+            state.isLoading = false;
+            state.studentsInCourse = action.payload
+        },
+        deleteCourse:(state) =>{
+            state.isLoading = true;
+        },
+        updateCourse:(state) =>{
+            state.isLoading = true;
+        },
+        updateCourseSuccess:(state,action)=>{
+            state.isLoading = false;
+            state.courseDetails = action.payload
         }
     }
 });
@@ -39,6 +69,15 @@ export const { getCourses,
                postCoursesSuccess, 
                postCoursesFailure,
                setCourseDetails,
+               postStudentIntoCourse,
+               deleteStudentFromCourse,
+               courseIsLoadingFalse,
+               courseIsLoadingTrue,
+               getStudentsFromCourse,
+               getStudentsFromCourseSuccess,
+               deleteCourse,
+               updateCourse,
+               updateCourseSuccess
                } = courseSlice.actions;
 
 export default courseSlice.reducer;

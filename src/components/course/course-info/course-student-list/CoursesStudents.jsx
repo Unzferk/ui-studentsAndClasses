@@ -1,14 +1,37 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { getStudentsFromCourse } from '../../../../redux/reducers/courseReducer';
+import { setFetchMessage } from '../../../../redux/reducers/global-message-reducer/fetchMessageReducer';
+import { DEFAULT_FETCH_MESSAGE, DEFAULT_FETCH_STATUS, DEFAULT_FETCH_TYPE, POST_STUDENT_INTO_COURSE_SUCCESS } from '../../../../redux/reducers/global-message-reducer/messages';
 
 const CoursesStudents = () => {
-    const { students } = useSelector(state => state.courses.courseDetails);
-    return (
+    const { studentsInCourse } = useSelector(state => state.courses);
+    const { code } = useSelector(state=> state.courses.courseDetails)
+    const { type } = useSelector(state => state.fetch);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      if(type===POST_STUDENT_INTO_COURSE_SUCCESS){
+        dispatch(getStudentsFromCourse({code:code}));
+        dispatch(setFetchMessage({status:DEFAULT_FETCH_STATUS, message:DEFAULT_FETCH_MESSAGE, type:DEFAULT_FETCH_TYPE}));
+        alert("SUCCESSFUL!");
+      }
+    }, [type])
+
+    useEffect(() => {
+        if(code){
+          dispatch(getStudentsFromCourse({code:code}));
+          dispatch(setFetchMessage({status:DEFAULT_FETCH_STATUS, message:DEFAULT_FETCH_MESSAGE, type:DEFAULT_FETCH_TYPE}));
+        }
+    }, [code])
+    
+    return ( 
       <div className='container container-course__table pt-3 pb-2 pl-2 pr-2'>
         <div className="table-courses-overflow">
           <table className="table table-sm table-hover col-8 table-overflow">
             <tbody>
-              {students && students.map((student) => {
+              {studentsInCourse && studentsInCourse.map((student) => {
                 return (
                   <tr key={student.studentId}>
                     <td className='table-courses-font-size'>{student.studentId}</td>

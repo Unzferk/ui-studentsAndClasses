@@ -1,101 +1,100 @@
-import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form';
-import { getCourses, postCourse } from '../../../../redux/reducers/courseReducer';
+import React, { useState } from 'react'
+import { deleteCourse, updateCourse } from '../../../../redux/reducers/courseReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 const CourseData = () => {
-    const [editMode, setEditMode] = useState(false);
-	const dispatch = useDispatch();
+	const [editMode, setEditMode] = useState(false);
+	const [title, setTitle] = useState("");
+	const [description, setDescription] = useState("");
 	const { courseDetails } = useSelector(state => state.courses);
-	const { register, handleSubmit, reset, formState, formState: { errors } } = useForm({
-		defaultValues: {
-			code: "",
-			title: "",
-			description: ""
-		}
-	});
+	const dispatch = useDispatch();
 
-	useEffect(() => {
-		if (formState.isSubmitSuccessful) {
-			reset({ code: "", title: "", description: "" });
-			dispatch(getCourses());
+	const handleDelete = async (code) => {
+		if(code){
+			dispatch(deleteCourse({ code }));
+		}else{
+			alert("You should select a course from the list first")
 		}
-	}, [formState, reset]);
-
-	const onSubmit = async (data) => {
-		dispatch(postCourse(data));
+	}
+	const handleUpdate = async (code) => {
+		if(!title) alert("Title field can't be empty")
+		let courseUpdated = {...courseDetails, title, description}
+		dispatch(updateCourse({code,courseUpdated}));
 	}
 
-	const onEdit = () => {
-		setEditMode(true);
+	const handleEditMode = (code) =>{
+		if(code){
+			setTitle(courseDetails.title);
+			setDescription(courseDetails.description);
+			setEditMode(true);
+		}else{
+			alert("You should select a course from the list first")
+		}
 	}
 
 	return (
 		<>
-			<form onSubmit={handleSubmit(onSubmit)} className='container'>
+			<div className='container'>
 
-				<table>
+				<table className='container'>
 					<tbody>
-						<tr key="dni" className='fw-bold'>
-							CODE:
-						</tr>
-						<tr>
-							{courseDetails.code}
+
+						<tr key="dni">
+							<td className='fw-bold'>CODE: </td>
+							<td className='d-flex justify-content-end'>{courseDetails.code ? courseDetails.code : "None selected"}</td>
 						</tr>
 
-						<tr key="name" className='fw-bold'>
-							Title:
-						</tr>
 						<tr>
-							{!editMode ? courseDetails.title :
+							<td className='fw-bold'>TITLE: </td>
+							<td className='d-flex justify-content-end'> {!editMode ? courseDetails.title ? courseDetails.title : "None selected" :
 								<>
 									<input type="text"
 										className={`form-control form-control-sm`}
 										autoComplete="off"
-										placeholder={courseDetails.title}
-										{...register("title", { required: false })}
+										placeholder={courseDetails.title}	
+										value={title}
+										onChange={e => setTitle(e.target.value)}
+											
 									/>
-									<div className='msg-alert-course'>{errors.title?.type === 'required' && "This field is required"}</div>
 								</>
-							}
-
+							}</td>
 						</tr>
 
-						<tr key="last" className='fw-bold'>
-							Description:
-						</tr>
 						<tr>
-							{!editMode ? courseDetails.description :
+							<td className='fw-bold'>DESCRIPTION: </td>
+							<td className='d-flex justify-content-end'>{!editMode ? courseDetails.description ? courseDetails.description : "None" :
 								<>
 									<input type="text"
 										className={`form-control form-control-sm`}
 										autoComplete="off"
 										placeholder={courseDetails.description}
-										{...register("description", { required: false })}
+										value={description}
+										onChange={e => setDescription(e.target.value)}
 									/>
-									<div className='msg-alert-course'>{errors.description?.type === 'required' && "This field is required"}</div>
 								</>
-							}
+							}</td>
 						</tr>
-						<p />
 					</tbody>
 				</table>
-				<div className='row'>
-					{editMode ?
-						<>
-							<button type="submit" className="btn btn-success btn-sm">Update</button>
-							<p />
-							<button className="btn btn-primary btn-sm" onClick={() => setEditMode(!editMode)}>Cancel</button>
-						</>
-						:
-						<>
-							<button className="btn btn-warning btn-sm" onClick={() => setEditMode(!editMode)}>Edit</button>
-							<p />
-							<button className="btn btn-danger btn-sm">Delete</button>
-						</>
-					}
-				</div>
-			</form>
+			</div>
+			<table>
+				<tbody>
+					<tr>
+						{editMode ?
+							<>
+								<td><button className="btn btn-success btn-sm" onClick={()=>handleUpdate(courseDetails.code)}>Update</button></td>
+								<td ><button className="btn btn-primary btn-sm" onClick={() => setEditMode(!editMode)}>Cancel</button></td>
+							</>
+							:
+							<>
+								<td ><button className="btn btn-warning btn-sm" onClick={() => handleEditMode(courseDetails.code)}>Edit</button></td>
+								<td ><button className="btn btn-danger btn-sm" onClick={() => handleDelete(courseDetails.code)}>Delete</button></td>
+							</>
+						}
+					</tr>
+				</tbody>
+			</table>
+
 		</>
 	)
 }

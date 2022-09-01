@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import {  getCourses, setCourseDetails } from '../../../redux/reducers/courseReducer';
-import { POST_COURSE_SUCCESS, POST_COURSE_FAILURE, DEFAULT_FETCH_MESSAGE, DEFAULT_FETCH_STATUS, DEFAULT_FETCH_TYPE } from '../../../redux/reducers/global-message-reducer/messages';
+import { POST_COURSE_SUCCESS, POST_COURSE_FAILURE, DEFAULT_FETCH_MESSAGE, DEFAULT_FETCH_STATUS, DEFAULT_FETCH_TYPE, POST_STUDENT_INTO_COURSE_SUCCESS, DELETE_COURSE_SUCCESS, UPDATE_COURSE_SUCCESS } from '../../../redux/reducers/global-message-reducer/messages';
 import { setFetchMessage } from '../../../redux/reducers/global-message-reducer/fetchMessageReducer';
 import './style.css'
 
@@ -12,9 +12,9 @@ const CourseTable = () => {
     const { type, message } = useSelector(state => state.fetch);
 
     useEffect(() => {
-      if(type===POST_COURSE_SUCCESS){
+      if(type===POST_COURSE_SUCCESS || type === DELETE_COURSE_SUCCESS || type===UPDATE_COURSE_SUCCESS){
         dispatch(getCourses());
-        alert("CREATED!")
+        alert("SUCCESSFUL !")
         dispatch(setFetchMessage({status:DEFAULT_FETCH_STATUS, message:DEFAULT_FETCH_MESSAGE, type:DEFAULT_FETCH_TYPE}));
       }
       if(type===POST_COURSE_FAILURE){
@@ -22,7 +22,6 @@ const CourseTable = () => {
         dispatch(setFetchMessage({status:DEFAULT_FETCH_STATUS, message:DEFAULT_FETCH_MESSAGE, type:DEFAULT_FETCH_TYPE}));
       }
     }, [type])
-    
 
     const setCourseInfo = (course) =>{
       dispatch(setCourseDetails(course));

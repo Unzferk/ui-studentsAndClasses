@@ -1,4 +1,4 @@
-import { put, takeLatest,all} from 'redux-saga/effects';
+import { put, takeLatest, all } from 'redux-saga/effects';
 import { getStudentsSuccess, postStudentsSuccess, studentIsLoadingFalse, updateStudentSuccess } from '../reducers/studentReducer';
 import axios from 'axios';
 import { courseIsLoadingFalse, getCoursesSuccess, getStudentsFromCourseSuccess, postCoursesSuccess, updateCourseSuccess } from '../reducers/courseReducer';
@@ -14,61 +14,73 @@ function* obtainStudents() {
 }
 function* createStudent(action) {
     const url = `${process.env.REACT_APP_API_URL}/v1/student`;
-    const response = yield axios.post(url, action.payload);
+    const response = yield axios.post(url, action.payload).catch(function (error) {
+        if (error.response) {
+            return error.response
+        }
+    });
     if (response.status === 201) {
         yield put(postStudentsSuccess(response.data));
-        yield put(setFetchMessage({status: response.status, message:response.message, type: POST_STUDENT_SUCCESS}));
-    }else{
-        yield put(setFetchMessage({status: response.status, message:response.message, type: POST_STUDENT_FAILURE}));
+        yield put(setFetchMessage({ status: response.status, message: response.message, type: POST_STUDENT_SUCCESS }));
+    } else {
+        yield put(setFetchMessage({ status: response.status, message: response.data.message, type: POST_STUDENT_FAILURE }));
     }
 }
 function* obtainCourses() {
     const url = `${process.env.REACT_APP_API_URL}/v1/course`;
-    const response = yield axios.get(url); 
-        if(response.status === 200){
+    const response = yield axios.get(url);
+    if (response.status === 200) {
         yield put(getCoursesSuccess(response.data));
     }
 }
 function* createCourse(action) {
     const url = `${process.env.REACT_APP_API_URL}/v1/course`;
-    const response = yield axios.post(url, action.payload);
+    const response = yield axios.post(url, action.payload).catch(function (error) {
+        if (error.response) {
+            return error.response
+        }
+    });
     if (response.status === 201) {
         yield put(postCoursesSuccess(response.data));
-        yield put(setFetchMessage({status: response.status, message:response.message, type: POST_COURSE_SUCCESS}));
+        yield put(setFetchMessage({ status: response.status, message: response.message, type: POST_COURSE_SUCCESS }));
     } else {
-        yield put(courseIsLoadingFalse(response.data));
-        yield put(setFetchMessage({status: response.status, message:response.message, type: POST_COURSE_FAILURE}));
+        yield put(courseIsLoadingFalse());
+        yield put(setFetchMessage({ status: response.status, message: response.data.message, type: POST_COURSE_FAILURE }));
     }
 }
 
-function* addStudentIntoCourse(action){
+function* addStudentIntoCourse(action) {
     const { code } = action.payload;
     const { studentId } = action.payload;
     const url = `${process.env.REACT_APP_API_URL}/v1/course/${code}/${studentId}`;
-    const response = yield axios.put(url);
+    const response = yield axios.put(url).catch(function (error) {
+        if (error.response) {
+            return error.response
+        }
+    });
     if (response.status === 202) {
         yield put(courseIsLoadingFalse(response.data));
-        yield put(setFetchMessage({status: response.status, message:response.message, type: POST_STUDENT_INTO_COURSE_SUCCESS}));
+        yield put(setFetchMessage({ status: response.status, message: response.message, type: POST_STUDENT_INTO_COURSE_SUCCESS }));
     } else {
         yield put(courseIsLoadingFalse(response.data));
-        yield put(setFetchMessage({status: response.status, message:response.message, type: POST_STUDENT_INTO_COURSE_FAILURE}));
+        yield put(setFetchMessage({ status: response.status, message: response.data.message, type: POST_STUDENT_INTO_COURSE_FAILURE }));
     }
 }
-function* removeStudentFromCourse(action){
+function* removeStudentFromCourse(action) {
     const { code } = action.payload;
     const { studentId } = action.payload;
     const url = `${process.env.REACT_APP_API_URL}/v1/course/${code}/${studentId}`;
     const response = yield axios.delete(url);
     if (response.status === 202) {
         yield put(courseIsLoadingFalse(response.data));
-        yield put(setFetchMessage({status: response.status, message:response.message, type: DELETE_STUDENT_FROM_COURSE_SUCCESS}));
+        yield put(setFetchMessage({ status: response.status, message: response.message, type: DELETE_STUDENT_FROM_COURSE_SUCCESS }));
     } else {
         yield put(courseIsLoadingFalse(response.data));
-        yield put(setFetchMessage({status: response.status, message:response.message, type: DELETE_STUDENT_FROM_COURSE_FAILURE}));
+        yield put(setFetchMessage({ status: response.status, message: response.message, type: DELETE_STUDENT_FROM_COURSE_FAILURE }));
     }
 }
 
-function* obtainStudentsFromCourse(action){
+function* obtainStudentsFromCourse(action) {
     const { code } = action.payload;
     const url = `${process.env.REACT_APP_API_URL}/v1/course/${code}/student`;
     const response = yield axios.get(url);
@@ -77,47 +89,45 @@ function* obtainStudentsFromCourse(action){
     }
 }
 
-function* removeCourse(action){
+function* removeCourse(action) {
     const { code } = action.payload
     const url = `${process.env.REACT_APP_API_URL}/v1/course/${code}`;
     const response = yield axios.delete(url);
     if (response.status === 200) {
         yield put(courseIsLoadingFalse(response.data));
-        yield put(setFetchMessage({status: response.status, message:response.message, type: DELETE_COURSE_SUCCESS}));
+        yield put(setFetchMessage({ status: response.status, message: response.message, type: DELETE_COURSE_SUCCESS }));
     }
 }
 
-function* modifyCourse(action){
-    const {code} = action.payload;
-    const {courseUpdated} = action.payload;
+function* modifyCourse(action) {
+    const { code } = action.payload;
+    const { courseUpdated } = action.payload;
     const url = `${process.env.REACT_APP_API_URL}/v1/course/${code}`;
     const response = yield axios.put(url, courseUpdated);
     if (response.status === 202) {
         yield put(updateCourseSuccess(response.data));
-        yield put(setFetchMessage({status: response.status, message:response.message, type: UPDATE_COURSE_SUCCESS}));
+        yield put(setFetchMessage({ status: response.status, message: response.message, type: UPDATE_COURSE_SUCCESS }));
     }
 }
 
-function* removeStudent(action){
+function* removeStudent(action) {
     const { studentId } = action.payload
     const url = `${process.env.REACT_APP_API_URL}/v1/student/${studentId}`;
     const response = yield axios.delete(url);
     if (response.status === 200) {
         yield put(studentIsLoadingFalse(response.data));
-        yield put(setFetchMessage({status: response.status, message:response.message, type: DELETE_STUDENT_SUCCESS}));
+        yield put(setFetchMessage({ status: response.status, message: response.message, type: DELETE_STUDENT_SUCCESS }));
     }
 }
 
-function* modifyStudent(action){
-    const {studentId} = action.payload;
-    const {studentUpdated} = action.payload;
-    console.log("ID "+ studentId);
-    console.log('UP: '+JSON.stringify(studentUpdated));
+function* modifyStudent(action) {
+    const { studentId } = action.payload;
+    const { studentUpdated } = action.payload;
     const url = `${process.env.REACT_APP_API_URL}/v1/student/${studentId}`;
     const response = yield axios.put(url, studentUpdated);
     if (response.status === 202) {
         yield put(updateStudentSuccess(response.data));
-        yield put(setFetchMessage({status: response.status, message:response.message, type: UPDATE_STUDENT_SUCCESS}));
+        yield put(setFetchMessage({ status: response.status, message: response.message, type: UPDATE_STUDENT_SUCCESS }));
     }
 }
 
@@ -134,30 +144,30 @@ function* getCourses() {
 function* postCourse() {
     yield takeLatest('courses/postCourse', createCourse);
 }
-function* postStudentIntoCourse(){
+function* postStudentIntoCourse() {
     yield takeLatest('courses/postStudentIntoCourse', addStudentIntoCourse);
 }
-function* deleteStudentFromCourse(){
+function* deleteStudentFromCourse() {
     yield takeLatest('courses/deleteStudentFromCourse', removeStudentFromCourse);
 }
 
-function* getStudentsFromCourse(){
+function* getStudentsFromCourse() {
     yield takeLatest('courses/getStudentsFromCourse', obtainStudentsFromCourse);
 }
 
-function* deleteCourse(){
+function* deleteCourse() {
     yield takeLatest('courses/deleteCourse', removeCourse);
 }
 
-function* updateCourse(){
+function* updateCourse() {
     yield takeLatest('courses/updateCourse', modifyCourse);
 }
 
-function* deleteStudent(){
+function* deleteStudent() {
     yield takeLatest('students/deleteStudent', removeStudent);
 }
 
-function* updateStudent(){
+function* updateStudent() {
     yield takeLatest('students/updateStudent', modifyStudent);
 }
 

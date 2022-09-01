@@ -1,17 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setStudentDetails } from '../../../redux/reducers/studentReducer';
+import { setFetchMessage } from '../../../redux/reducers/global-message-reducer/fetchMessageReducer';
+import { DEFAULT_FETCH_MESSAGE, DEFAULT_FETCH_STATUS, DEFAULT_FETCH_TYPE, POST_STUDENT_FAILURE, POST_STUDENT_SUCCESS } from '../../../redux/reducers/global-message-reducer/messages';
+import { getStudents, setStudentDetails } from '../../../redux/reducers/studentReducer';
 import './style.css'
 
 const StudentTable = () => {
 
   const dispatch = useDispatch();
-
   const { students } = useSelector(state => state.students);
+  const { type, message } = useSelector(state => state.fetch);
 
   const setStudentInfo = (student) =>{
     dispatch(setStudentDetails(student));
   }
+
+  useEffect(() => { 
+    if(type===POST_STUDENT_SUCCESS){
+      dispatch(getStudents());
+      alert("CREATED!")
+      dispatch(setFetchMessage({status:DEFAULT_FETCH_STATUS, message:DEFAULT_FETCH_MESSAGE, type:DEFAULT_FETCH_TYPE}));
+    }
+    if(type===POST_STUDENT_FAILURE){
+      alert("message: "+message);
+      dispatch(setFetchMessage({status:DEFAULT_FETCH_STATUS, message:DEFAULT_FETCH_MESSAGE, type:DEFAULT_FETCH_TYPE}));
+    }
+  }, [type])
 
   return (
     <div className='container container-student__table pt-3 pb-2 pl-2 pr-2'>

@@ -19,7 +19,6 @@ const CreateStudent = () => {
   useEffect(() => {
     if (formState.isSubmitSuccessful) {
       reset({ studentId: "", firstName: "", lastName: "" });
-      dispatch(getStudents());
     }
   }, [formState, reset]);
 

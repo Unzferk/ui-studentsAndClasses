@@ -30,7 +30,6 @@ export const studentSlice = createSlice({
             state.isLoading = false;
         },
         setStudentDetails: (state,action) =>{
-            console.log(JSON.stringify(action.payload))
             state.studentDetails = action.payload
         }
     }

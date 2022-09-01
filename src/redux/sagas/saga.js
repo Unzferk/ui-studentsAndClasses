@@ -3,7 +3,7 @@ import { getStudentsSuccess, postStudentsSuccess } from '../reducers/studentRedu
 import axios from 'axios';
 import { getCoursesSuccess, postCoursesSuccess } from '../reducers/courseReducer';
 import { setFetchMessage } from '../reducers/global-message-reducer/fetchMessageReducer';
-import { POST_COURSE_FAILURE } from '../reducers/global-message-reducer/messages';
+import { POST_COURSE_FAILURE, POST_COURSE_SUCCESS, POST_STUDENT_FAILURE, POST_STUDENT_SUCCESS } from '../reducers/global-message-reducer/messages';
 
 function* obtainStudents() {
     const url = `${process.env.REACT_APP_API_URL}/v1/student`;
@@ -17,6 +17,9 @@ function* createStudent(action) {
     const response = yield axios.post(url, action.payload);
     if (response.status === 201) {
         yield put(postStudentsSuccess(response.data));
+        yield put(setFetchMessage({status: response.status, message:response.message, type: POST_STUDENT_SUCCESS}));
+    }else{
+        yield put(setFetchMessage({status: response.status, message:response.message, type: POST_STUDENT_FAILURE}));
     }
 }
 function* obtainCourses() {
@@ -29,8 +32,9 @@ function* obtainCourses() {
 function* createCourse(action) {
     const url = `${process.env.REACT_APP_API_URL}/v1/course`;
     const response = yield axios.post(url, action.payload);
-    if (response.status == 201) {
+    if (response.status === 201) {
         yield put(postCoursesSuccess(response.data));
+        yield put(setFetchMessage({status: response.status, message:response.message, type: POST_COURSE_SUCCESS}));
     } else {
         yield put(setFetchMessage({status: response.status, message:response.message, type: POST_COURSE_FAILURE}));
     }

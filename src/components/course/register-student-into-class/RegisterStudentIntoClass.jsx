@@ -58,7 +58,7 @@ const RegisterStudentIntoClass = () => {
 
 				<div className='row'>
 					<div className="col">
-						<button onClick={()=>handleRegister()} className="btn btn-success btn-sm">Register</button>
+						<button onClick={()=>handleRegister()} className="btn btn-primary btn-sm">Register</button>
 					</div>
 					<div className="col">
 						<button onClick={()=>handleRemove()} className="btn btn-danger btn-sm">Remove</button>

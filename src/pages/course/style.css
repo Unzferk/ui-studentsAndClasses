@@ -15,5 +15,35 @@
 
 .course-list{
     height: 82%;
-    
+}
+
+.btn{
+    width: 100px !important;
+}
+
+.btn-primary{
+    background-color: #1E3C70 !important;
+    border-color: black !important;
+}
+
+.btn-warning{
+    background-color: #3365BD !important;
+    border-color: #1E3C70 !important;
+    color: aliceblue !important;
+}
+
+.btn-danger{
+    background-color: #405270 !important;
+    border-color: #3365BD !important;
+    color: aliceblue !important;
+}
+
+body{
+
+    font-family: 'Lato' !important;
+    font-weight: 300;
+}
+.fw-bold{
+    font-weight: 200 !important;
+    font-size: 12px !important;
 }

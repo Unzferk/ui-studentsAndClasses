@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { deleteCourse, updateCourse } from '../../../../redux/reducers/courseReducer';
 import { useDispatch, useSelector } from 'react-redux';
+import '../styles.css';
 
 const CourseData = () => {
 	const [editMode, setEditMode] = useState(false);
@@ -41,12 +42,12 @@ const CourseData = () => {
 
 						<tr key="dni">
 							<td className='fw-bold'>CODE: </td>
-							<td className='d-flex justify-content-end'>{courseDetails.code ? courseDetails.code : "None selected"}</td>
+							<td className='justify-content-end details-text-body__size'>{courseDetails.code ? courseDetails.code : "None selected"}</td>
 						</tr>
 
 						<tr>
-							<td className='fw-bold'>TITLE: </td>
-							<td className='d-flex justify-content-end'> {!editMode ? courseDetails.title ? courseDetails.title : "None selected" :
+							<td className='fw-bold '>TITLE: </td>
+							<td className='justify-content-end details-text-body__size'> {!editMode ? courseDetails.title ? courseDetails.title : "None selected" :
 								<>
 									<input type="text"
 										className={`form-control form-control-sm`}
@@ -62,7 +63,9 @@ const CourseData = () => {
 
 						<tr>
 							<td className='fw-bold'>DESCRIPTION: </td>
-							<td className='d-flex justify-content-end'>{!editMode ? courseDetails.description ? courseDetails.description : "None" :
+						</tr>
+						<tr>
+						<td className='justify-content-end details-text-body__size'>{!editMode ? courseDetails.description ? courseDetails.description : "None" :
 								<>
 									<input type="text"
 										className={`form-control form-control-sm`}
@@ -77,14 +80,14 @@ const CourseData = () => {
 					</tbody>
 				</table>
 
-				<div className='row'>
+				<div className='row mt-2'>
 					{editMode ?
 						<>
 							<div className="col">
-								<button className="btn btn-success btn-sm" onClick={() => handleUpdate(courseDetails.code)}>Update</button>
+								<button className="btn btn-primary btn-sm" onClick={() => handleUpdate(courseDetails.code)}>Update</button>
 							</div>
 							<div className="col ">
-								<button className="btn btn-primary btn-sm" onClick={() => setEditMode(!editMode)}>Cancel</button>
+								<button className="btn btn-danger btn-sm" onClick={() => setEditMode(!editMode)}>Cancel</button>
 							</div>
 						</>
 						:

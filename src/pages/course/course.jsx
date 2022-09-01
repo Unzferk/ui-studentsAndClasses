@@ -18,7 +18,7 @@ const Course = () => {
     <div className='container-fluid container-extended'>
       <div className='row'>
         <div className='col-7'>
-          <div className='container mt-5 mb-16 ml-3 mr-5 component'>
+          <div className='container mt-5 ml-3 mr-5 component'>
             <div className="create-Course pt-2">
              <CreateCourse/>
             </div>

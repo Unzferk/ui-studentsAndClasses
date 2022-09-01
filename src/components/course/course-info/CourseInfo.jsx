@@ -6,12 +6,12 @@ import './styles.css'
 
 const CourseInfo = () => {
   return (
-    <div className='container container-course mt-2 mb-2 ml-2 mr-2'>
+    <div className='container course-info-container mt-2 ml-2 mr-2'>
 
       <div className="row">
 
         <div className="col-5">
-          <div className="row course-info-row">
+          <div className="row ">
             <div className='title-course h4'> Course Details </div>
             <CourseData />
           </div>

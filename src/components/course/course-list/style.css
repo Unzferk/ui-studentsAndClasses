@@ -1,5 +1,5 @@
 .container-course__table{
-    height: 100%;
+    height: 450px;
 }
 .table-courses-overflow{
     overflow-y: auto;

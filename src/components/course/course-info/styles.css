@@ -8,3 +8,14 @@ hr{
 .course-info-row{
     height: 55%;
 }
+
+.course-info-container{
+    height: 540px;
+}
+
+.details-text-title__size{
+    font-size: 16px;
+}
+.details-text-body__size{
+    font-size: 14px;
+}

@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setFetchMessage } from '../../../redux/reducers/global-message-reducer/fetchMessageReducer';
 import { DEFAULT_FETCH_MESSAGE, DEFAULT_FETCH_STATUS, DEFAULT_FETCH_TYPE, DELETE_STUDENT_SUCCESS, POST_STUDENT_FAILURE, POST_STUDENT_SUCCESS, UPDATE_STUDENT_SUCCESS } from '../../../redux/reducers/global-message-reducer/messages';
 import { getStudents, setStudentDetails } from '../../../redux/reducers/studentReducer';
-import './style.css'
+import './style.css';
 
+const searchKeys = ["studentId","firstName","lastName"];
 const StudentTable = () => {
 
   const dispatch = useDispatch();
+  const [search, setSearch] = useState("")
   const { students } = useSelector(state => state.students);
   const { type, message } = useSelector(state => state.fetch);
 
@@ -27,9 +29,25 @@ const StudentTable = () => {
     }
   }, [type])
 
+  const searcher = (data) =>{
+    let aux = data.filter(
+      (student) => searchKeys.some(key=>student[key].toLowerCase().includes(search))
+    );
+    return aux
+  }
+
   return (
     <div className='container container-student__table pt-3 pb-2 pl-2 pr-2'>
-      <div className='title-student h4'> Students List  </div>
+      <div className='title-student h4 row'> 
+        <div className='col-4'>Students List</div>
+        <div className='col-8'><input 
+                className='form-control form-control-sm'
+                autoComplete='off'
+                placeholder='Search...' 
+                onChange={e => setSearch(e.target.value)}/>
+
+        </div>
+      </div>
       <div className="table-students-overflow">
         <table className="table table-sm table-hover col-8 table-overflow">
           <thead>
@@ -41,7 +59,7 @@ const StudentTable = () => {
             </tr>
           </thead>
           <tbody>
-            {students && students.map((stud) => {
+            {students && searcher(students).map((stud) => {
               return (
                 <tr key={stud.studentId}>
                   <td className='table-students-font-size'>{stud.studentId}</td>

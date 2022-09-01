@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+## Pre Requirements ##
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To set up the system we are going to need some requirements.
 
-## Available Scripts
+**Visual studio code** 
 
-In the project directory, you can run:
+As code editor, you can use another of your preference. [Download VSCode](https://code.visualstudio.com/download)
 
-### `npm start`
+**NodeJS** 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+As javascript runtime environment, in our case working with version 16 LTS and npm as package manager on its version 8.11 or more [Download Node](https://nodejs.org/en/download/)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**Cloning the repository**
 
-### `npm test`
+To download the project in your machine, you can download it or clone it from git hub:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+    $ git clone https://github.com/Unzferk/ui-studentsAndClasses.git
+```
 
-### `npm run build`
+## Configuration and commands ##
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Once the project is cloned on your machine.
+You have to execute the following command in the folder that contains the package.json file.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+``` npm install ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Once is istalled all the dependencies in the node_modules folder. Then execute the next command:
 
-### `npm run eject`
+``` npm start ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The app runs, by default, on 3000 port.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# .env Variables #
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+We just have one variable in our .env file, and it is the default path for the API service for this UI.
 
-## Learn More
+``` 
+REACT_APP_API_URL="http://localhost:8030/api"
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Remember:** If you going to change the default port of this system '3000' you have to update environment variables of API as well, or you can get conflicts with CORS.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+### File structure ###
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+We follow the file structure according to this [blog](https://medium.com/@Charles_Stover/optimal-file-structure-for-react-applications-f3e35ad0a145)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## ENJOY IT! ##
 
-### Making a Progressive Web App
+Once you run npm install should be enough to start working with these views.
+Remember have the API running or you won't get any data.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### Contact Information ####
 
-### Advanced Configuration
+Development team:
+* Unzueta Fernando : fernando.unzueta.dev@gmail.com
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

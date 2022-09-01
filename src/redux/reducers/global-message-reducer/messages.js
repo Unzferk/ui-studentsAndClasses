@@ -11,3 +11,5 @@ export const DELETE_STUDENT_FROM_COURSE_SUCCESS = "delete.student.from.course.su
 export const DELETE_STUDENT_FROM_COURSE_FAILURE = "delete.student.from.course.failure";
 export const DELETE_COURSE_SUCCESS = "delete.course.success";
 export const UPDATE_COURSE_SUCCESS = "update.course.success";
+export const DELETE_STUDENT_SUCCESS = "delete.student.success";
+export const UPDATE_STUDENT_SUCCESS = "update.student.success";

@@ -1,32 +1,28 @@
-import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { postStudentIntoCourse } from '../../../redux/reducers/courseReducer';
+import { deleteStudentFromCourse, postStudentIntoCourse } from '../../../redux/reducers/courseReducer';
 
 const RegisterStudentIntoClass = () => {
 
 	const dispatch = useDispatch();
+	const [code, setCode] = useState("");
+	const [studentId, setStudentId] = useState("")
 
-	const { register, handleSubmit, reset, formState, formState: { errors } } = useForm({
-		defaultValues: {
-			code: "",
-			studentId: "",
-		}
-	});
 
-	useEffect(() => {
-		if (formState.isSubmitSuccessful) {
-			reset({ code: "", studentId: "" });
-		}
-	}, [formState, reset]);
-
-	const onSubmit = async (data) => {
-		dispatch(postStudentIntoCourse(data));
+	const handleRegister = async () => {
+		if(!code) alert("Code field can't be empty")
+		if(!studentId) alert("Student DNI field can't be empty")
+		dispatch(postStudentIntoCourse({code,studentId}));
+	}
+	const handleRemove = async (data) => {
+		if(!code) alert("Code field can't be empty")
+		if(!studentId) alert("Student DNI field can't be empty")
+		dispatch(deleteStudentFromCourse({code,studentId}));
 	}
 
 	return (
 		<>
-			<form onSubmit={handleSubmit(onSubmit)} className='container'>
+			<div className='container'>
 
 				<table>
 					<tbody>
@@ -39,9 +35,9 @@ const RegisterStudentIntoClass = () => {
 								className={`form-control form-control-sm`}
 								autoComplete="off"
 								placeholder="Course code"
-								{...register("code", { required: false })}
+								value={code}
+								onChange={e => setCode(e.target.value)}
 							/>
-							<div className='msg-alert-course'>{errors.code?.type === 'required' && "This field is required"}</div>
 						</tr>
 
 						<tr key="studentId" className='fw-bold'>
@@ -52,19 +48,24 @@ const RegisterStudentIntoClass = () => {
 								className={`form-control form-control-sm`}
 								autoComplete="off"
 								placeholder="Student DNI"
-								{...register("studentId", { required: false })}
+								value={studentId}
+								onChange={e => setStudentId(e.target.value)}
 							/>
-							<div className='msg-alert-course'>{errors.studentId?.type === 'required' && "This field is required"}</div>
 						</tr>
 						<p />
 					</tbody>
 				</table>
 
 				<div className='row'>
-					<button type="submit" className="btn btn-success btn-sm">Register Student</button>
-				</div>
+					<div className="col">
+						<button onClick={()=>handleRegister()} className="btn btn-success btn-sm">Register</button>
+					</div>
+					<div className="col">
+						<button onClick={()=>handleRemove()} className="btn btn-danger btn-sm">Remove</button>
+					</div>
 
-			</form>
+				</div>
+			</div>
 		</>
 	)
 }

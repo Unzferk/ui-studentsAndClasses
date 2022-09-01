@@ -48,7 +48,7 @@ const CourseTable = () => {
                     <td className='table-courses-font-size'>{course.title}</td>
                     <td className='table-courses-font-size'>{course.description} </td>
                     <td>
-                      <i className="material-icons" onClick={()=>setCourseInfo(course)}>visibility</i>
+                      <i className="material-icons material-symbols-outlined " onClick={()=>setCourseInfo(course)}>visibility</i>
                     </td>
                   </tr>
                 )

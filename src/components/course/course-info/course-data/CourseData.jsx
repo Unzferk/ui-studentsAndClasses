@@ -10,24 +10,24 @@ const CourseData = () => {
 	const dispatch = useDispatch();
 
 	const handleDelete = async (code) => {
-		if(code){
+		if (code) {
 			dispatch(deleteCourse({ code }));
-		}else{
+		} else {
 			alert("You should select a course from the list first")
 		}
 	}
 	const handleUpdate = async (code) => {
-		if(!title) alert("Title field can't be empty")
-		let courseUpdated = {...courseDetails, title, description}
-		dispatch(updateCourse({code,courseUpdated}));
+		if (!title) alert("Title field can't be empty")
+		let courseUpdated = { ...courseDetails, title, description }
+		dispatch(updateCourse({ code, courseUpdated }));
 	}
 
-	const handleEditMode = (code) =>{
-		if(code){
+	const handleEditMode = (code) => {
+		if (code) {
 			setTitle(courseDetails.title);
 			setDescription(courseDetails.description);
 			setEditMode(true);
-		}else{
+		} else {
 			alert("You should select a course from the list first")
 		}
 	}
@@ -51,10 +51,10 @@ const CourseData = () => {
 									<input type="text"
 										className={`form-control form-control-sm`}
 										autoComplete="off"
-										placeholder={courseDetails.title}	
+										placeholder={courseDetails.title}
 										value={title}
 										onChange={e => setTitle(e.target.value)}
-											
+
 									/>
 								</>
 							}</td>
@@ -76,24 +76,31 @@ const CourseData = () => {
 						</tr>
 					</tbody>
 				</table>
+
+				<div className='row'>
+					{editMode ?
+						<>
+							<div className="col">
+								<button className="btn btn-success btn-sm" onClick={() => handleUpdate(courseDetails.code)}>Update</button>
+							</div>
+							<div className="col ">
+								<button className="btn btn-primary btn-sm" onClick={() => setEditMode(!editMode)}>Cancel</button>
+							</div>
+						</>
+						:
+						<>
+							<div className="col">
+								<button className="btn btn-warning btn-sm" onClick={() => handleEditMode(courseDetails.code)}>Edit</button>
+							</div>
+							<div className="col">
+								<button className="btn btn-danger btn-sm" onClick={() => handleDelete(courseDetails.code)}>Delete</button>
+
+							</div>
+						</>
+					}
+				</div>
 			</div>
-			<table>
-				<tbody>
-					<tr>
-						{editMode ?
-							<>
-								<td><button className="btn btn-success btn-sm" onClick={()=>handleUpdate(courseDetails.code)}>Update</button></td>
-								<td ><button className="btn btn-primary btn-sm" onClick={() => setEditMode(!editMode)}>Cancel</button></td>
-							</>
-							:
-							<>
-								<td ><button className="btn btn-warning btn-sm" onClick={() => handleEditMode(courseDetails.code)}>Edit</button></td>
-								<td ><button className="btn btn-danger btn-sm" onClick={() => handleDelete(courseDetails.code)}>Delete</button></td>
-							</>
-						}
-					</tr>
-				</tbody>
-			</table>
+
 
 		</>
 	)

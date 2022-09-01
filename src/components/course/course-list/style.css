@@ -8,3 +8,12 @@
 .table-courses-font-size{
     font-size: small;
 }
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 200,
+    'GRAD' 200,
+    'opsz' 24;
+    
+    cursor: pointer;
+}

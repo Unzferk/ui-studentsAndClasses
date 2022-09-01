@@ -17,7 +17,7 @@ const CourseInfo = () => {
           </div>
           <hr/>
           <div className="row">
-            <div className='title-course h4'> Register Student into a Class </div>
+            <div className='title-course h4'> Register / Remove Student from Course </div>
             <RegisterStudentIntoClass />
           </div>
         </div>

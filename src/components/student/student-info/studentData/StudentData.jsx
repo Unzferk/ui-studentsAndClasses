@@ -1,102 +1,102 @@
-import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form';
-import { getStudents, postStudent } from '../../../../redux/reducers/studentReducer';
+import React, { useState } from 'react'
+import { deleteStudent, updateStudent } from '../../../../redux/reducers/studentReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 const StudentData = () => {
 
 	const [editMode, setEditMode] = useState(false);
-	const dispatch = useDispatch();
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
 	const { studentDetails } = useSelector(state => state.students);
-	const { register, handleSubmit, reset, formState, formState: { errors } } = useForm({
-		defaultValues: {
-			studentId: "",
-			firstName: "",
-			lastName: ""
-		}
-	});
+	const dispatch = useDispatch();
 
-	useEffect(() => {
-		if (formState.isSubmitSuccessful) {
-			reset({ studentId: "", firstName: "", lastName: "" });
-			dispatch(getStudents());
+	const handleDelete = async (studentId) => {
+		if(studentId){
+			dispatch(deleteStudent({ studentId }));
+		}else{
+			alert("You should select a course from the list first")
 		}
-	}, [formState, reset]);
-
-	const onSubmit = async (data) => {
-		dispatch(postStudent(data));
+	}
+	const handleUpdate = async (studentId) => {
+		if(!firstName) alert("FirstName field can't be empty")
+		if(!lastName) alert("LastName field can't be empty")
+		let studentUpdated = {...studentDetails, firstName, lastName}
+		dispatch(updateStudent({studentId,studentUpdated}));
+		setEditMode(false);
 	}
 
-	const onEdit = () => {
-		setEditMode(true);
+	const handleEditMode = (studentId) =>{
+		if(studentId){
+			setFirstName(studentDetails.firstName);
+			setLastName(studentDetails.lastName);
+			setEditMode(true);
+		}else{
+			alert("You should select a course from the list first")
+		}
 	}
 
 	return (
 		<>
-			<form onSubmit={handleSubmit(onSubmit)} className='container'>
+			<div className='container'>
 
-				<table>
+				<table className='container'>
 					<tbody>
-						<tr key="dni" className='fw-bold'>
-							DNI:
-						</tr>
-						<tr>
-							{studentDetails.studentId}
+
+						<tr key="dni">
+							<td className='fw-bold'>DNI: </td>
+							<td className='d-flex justify-content-end'>{studentDetails.studentId ? studentDetails.studentId : "None selected"}</td>
 						</tr>
 
-						<tr key="name" className='fw-bold'>
-							First Name:
-						</tr>
 						<tr>
-							{!editMode ? studentDetails.firstName :
+							<td className='fw-bold'>FIRST NAME: </td>
+							<td className='d-flex justify-content-end'> {!editMode ? studentDetails.firstName ? studentDetails.firstName : "None selected" :
 								<>
 									<input type="text"
 										className={`form-control form-control-sm`}
 										autoComplete="off"
-										placeholder={studentDetails.firstName}
-										{...register("firstName", { required: false })}
+										placeholder={studentDetails.firstName}	
+										value={firstName}
+										onChange={e => setFirstName(e.target.value)}
+											
 									/>
-									<div className='msg-alert-student'>{errors.firstName?.type === 'required' && "This field is required"}</div>
 								</>
-							}
-
+							}</td>
 						</tr>
 
-						<tr key="last" className='fw-bold'>
-							Last Name:
-						</tr>
 						<tr>
-							{!editMode ? studentDetails.lastName :
+							<td className='fw-bold'>LAST NAME: </td>
+							<td className='d-flex justify-content-end'>{!editMode ? studentDetails.lastName ? studentDetails.lastName : "None" :
 								<>
 									<input type="text"
 										className={`form-control form-control-sm`}
 										autoComplete="off"
 										placeholder={studentDetails.lastName}
-										{...register("lastName", { required: false })}
+										value={lastName}
+										onChange={e => setLastName(e.target.value)}
 									/>
-									<div className='msg-alert-student'>{errors.lastName?.type === 'required' && "This field is required"}</div>
 								</>
-							}
+							}</td>
 						</tr>
-						<p />
 					</tbody>
 				</table>
-				<div className='row'>
-					{editMode ?
-						<>
-							<button type="submit" className="btn btn-success btn-sm">Update</button>
-							<p />
-							<button className="btn btn-primary btn-sm" onClick={() => setEditMode(!editMode)}>Cancel</button>
-						</>
-						:
-						<>
-							<button className="btn btn-warning btn-sm" onClick={() => setEditMode(!editMode)}>Edit</button>
-							<p />
-							<button className="btn btn-danger btn-sm">Delete</button>
-						</>
-					}
-				</div>
-			</form>
+			</div>
+			<table>
+				<tbody>
+					<tr>
+						{editMode ?
+							<>
+								<td><button className="btn btn-success btn-sm" onClick={()=>handleUpdate(studentDetails.studentId)}>Update</button></td>
+								<td ><button className="btn btn-primary btn-sm" onClick={() => setEditMode(!editMode)}>Cancel</button></td>
+							</>
+							:
+							<>
+								<td ><button className="btn btn-warning btn-sm" onClick={() => handleEditMode(studentDetails.studentId)}>Edit</button></td>
+								<td ><button className="btn btn-danger btn-sm" onClick={() => handleDelete(studentDetails.studentId)}>Delete</button></td>
+							</>
+						}
+					</tr>
+				</tbody>
+			</table>
 		</>
 	)
 }

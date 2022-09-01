@@ -1,9 +1,9 @@
 import { put, takeLatest,all} from 'redux-saga/effects';
-import { getStudentsSuccess, postStudentsSuccess } from '../reducers/studentReducer';
+import { getStudentsSuccess, postStudentsSuccess, studentIsLoadingFalse, updateStudentSuccess } from '../reducers/studentReducer';
 import axios from 'axios';
 import { courseIsLoadingFalse, getCoursesSuccess, getStudentsFromCourseSuccess, postCoursesSuccess, updateCourseSuccess } from '../reducers/courseReducer';
 import { setFetchMessage } from '../reducers/global-message-reducer/fetchMessageReducer';
-import { DELETE_COURSE_SUCCESS, DELETE_STUDENT_FROM_COURSE_FAILURE, DELETE_STUDENT_FROM_COURSE_SUCCESS, POST_COURSE_FAILURE, POST_COURSE_SUCCESS, POST_STUDENT_FAILURE, POST_STUDENT_INTO_COURSE, POST_STUDENT_INTO_COURSE_FAILURE, POST_STUDENT_INTO_COURSE_SUCCESS, POST_STUDENT_SUCCESS, UPDATE_COURSE_SUCCESS } from '../reducers/global-message-reducer/messages';
+import { DELETE_COURSE_SUCCESS, DELETE_STUDENT_FROM_COURSE_FAILURE, DELETE_STUDENT_FROM_COURSE_SUCCESS, DELETE_STUDENT_SUCCESS, POST_COURSE_FAILURE, POST_COURSE_SUCCESS, POST_STUDENT_FAILURE, POST_STUDENT_INTO_COURSE, POST_STUDENT_INTO_COURSE_FAILURE, POST_STUDENT_INTO_COURSE_SUCCESS, POST_STUDENT_SUCCESS, UPDATE_COURSE_SUCCESS, UPDATE_STUDENT_SUCCESS } from '../reducers/global-message-reducer/messages';
 
 function* obtainStudents() {
     const url = `${process.env.REACT_APP_API_URL}/v1/student`;
@@ -98,6 +98,29 @@ function* modifyCourse(action){
     }
 }
 
+function* removeStudent(action){
+    const { studentId } = action.payload
+    const url = `${process.env.REACT_APP_API_URL}/v1/student/${studentId}`;
+    const response = yield axios.delete(url);
+    if (response.status === 200) {
+        yield put(studentIsLoadingFalse(response.data));
+        yield put(setFetchMessage({status: response.status, message:response.message, type: DELETE_STUDENT_SUCCESS}));
+    }
+}
+
+function* modifyStudent(action){
+    const {studentId} = action.payload;
+    const {studentUpdated} = action.payload;
+    console.log("ID "+ studentId);
+    console.log('UP: '+JSON.stringify(studentUpdated));
+    const url = `${process.env.REACT_APP_API_URL}/v1/student/${studentId}`;
+    const response = yield axios.put(url, studentUpdated);
+    if (response.status === 202) {
+        yield put(updateStudentSuccess(response.data));
+        yield put(setFetchMessage({status: response.status, message:response.message, type: UPDATE_STUDENT_SUCCESS}));
+    }
+}
+
 function* getStudent() {
     yield takeLatest('students/getStudents', obtainStudents);
 }
@@ -130,6 +153,14 @@ function* updateCourse(){
     yield takeLatest('courses/updateCourse', modifyCourse);
 }
 
+function* deleteStudent(){
+    yield takeLatest('students/deleteStudent', removeStudent);
+}
+
+function* updateStudent(){
+    yield takeLatest('students/updateStudent', modifyStudent);
+}
+
 export default function* rootSaga() {
     yield all([
         getStudent(),
@@ -141,5 +172,7 @@ export default function* rootSaga() {
         getStudentsFromCourse(),
         deleteCourse(),
         updateCourse(),
+        deleteStudent(),
+        updateStudent(),
     ]);
 }

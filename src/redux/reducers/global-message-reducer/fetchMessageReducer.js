@@ -12,10 +12,15 @@ export const fetchMessageSlice = createSlice({
             state.status = action.payload.status;
             state.message = action.payload.message;
             state.type = action.payload.type;
+        },
+        setFetchMessageDefault: (state) =>{
+            state.status = "";
+            state.message = "";
+            state.type = "";
         }
     }
 });
 
-export const { setFetchMessage } = fetchMessageSlice.actions;
+export const { setFetchMessage, setFetchMessageDefault } = fetchMessageSlice.actions;
 
 export default fetchMessageSlice.reducer;

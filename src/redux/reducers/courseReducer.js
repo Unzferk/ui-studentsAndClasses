@@ -49,6 +49,10 @@ export const courseSlice = createSlice({
             state.isLoading = false;
             state.studentsInCourse = action.payload
         },
+        setStudentsInCourse:(state,action) =>{
+            state.isLoading = false;
+            state.studentsInCourse = action.payload
+        },
         deleteCourse:(state) =>{
             state.isLoading = true;
         },
@@ -70,6 +74,7 @@ export const { getCourses,
                postCoursesFailure,
                setCourseDetails,
                postStudentIntoCourse,
+               setStudentsInCourse,
                deleteStudentFromCourse,
                courseIsLoadingFalse,
                courseIsLoadingTrue,

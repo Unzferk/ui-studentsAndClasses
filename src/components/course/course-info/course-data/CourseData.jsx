@@ -1,14 +1,22 @@
-import React, { useState } from 'react'
-import { deleteCourse, updateCourse } from '../../../../redux/reducers/courseReducer';
+import React, {  useEffect, useState } from 'react'
+import { deleteCourse, setCourseDetails, updateCourse } from '../../../../redux/reducers/courseReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import '../styles.css';
+import { DELETE_COURSE_SUCCESS } from '../../../../redux/reducers/global-message-reducer/messages';
 
 const CourseData = () => {
 	const [editMode, setEditMode] = useState(false);
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
 	const { courseDetails } = useSelector(state => state.courses);
+	const { type } = useSelector(state => state.fetch);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if(type === DELETE_COURSE_SUCCESS){
+		  dispatch(setCourseDetails({}));
+		}
+	  }, [type])
 
 	const handleDelete = async (code) => {
 		if (code) {
@@ -18,9 +26,11 @@ const CourseData = () => {
 		}
 	}
 	const handleUpdate = async (code) => {
-		if (!title) alert("Title field can't be empty")
-		let courseUpdated = { ...courseDetails, title, description }
+		if (!title) return alert("Title field can't be empty")
+		if (!description) setDescription("");
+		let courseUpdated = { ...courseDetails, title, description, students:null }
 		dispatch(updateCourse({ code, courseUpdated }));
+		setEditMode(false);
 	}
 
 	const handleEditMode = (code) => {

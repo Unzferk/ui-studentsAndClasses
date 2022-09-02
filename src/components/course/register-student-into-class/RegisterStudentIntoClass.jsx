@@ -8,16 +8,19 @@ const RegisterStudentIntoClass = () => {
 	const [code, setCode] = useState("");
 	const [studentId, setStudentId] = useState("")
 
-
 	const handleRegister = async () => {
-		if(!code) alert("Code field can't be empty")
-		if(!studentId) alert("Student DNI field can't be empty")
-		dispatch(postStudentIntoCourse({code,studentId}));
+		if(!code) return alert("Code field can't be empty")
+		if(!studentId) return alert("Student DNI field can't be empty")
+		if(code && studentId) dispatch(postStudentIntoCourse({code,studentId}));	
+		setCode("");
+		setStudentId("");
 	}
-	const handleRemove = async (data) => {
-		if(!code) alert("Code field can't be empty")
-		if(!studentId) alert("Student DNI field can't be empty")
-		dispatch(deleteStudentFromCourse({code,studentId}));
+	const handleRemove = async () => {
+		if(!code) return alert("Code field can't be empty")
+		if(!studentId) return alert("Student DNI field can't be empty")
+		if(code && studentId) dispatch(deleteStudentFromCourse({code,studentId}));
+		setCode("");
+		setStudentId("");
 	}
 
 	return (

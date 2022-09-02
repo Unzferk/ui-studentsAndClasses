@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { deleteStudent, updateStudent } from '../../../../redux/reducers/studentReducer';
+import React, { useEffect, useState } from 'react'
+import { deleteStudent, setStudentDetails, updateStudent } from '../../../../redux/reducers/studentReducer';
 import { useDispatch, useSelector } from 'react-redux';
+import { DELETE_STUDENT_SUCCESS } from '../../../../redux/reducers/global-message-reducer/messages';
 
 const StudentData = () => {
 
@@ -8,7 +9,14 @@ const StudentData = () => {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const { studentDetails } = useSelector(state => state.students);
+	const { type } = useSelector(state => state.fetch);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+	  if(type === DELETE_STUDENT_SUCCESS){
+		dispatch(setStudentDetails({}));
+	  }
+	}, [type])
 
 	const handleDelete = async (studentId) => {
 		if(studentId){

@@ -14,11 +14,12 @@ const CreateCourse = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if(!code) alert("the code can't be emtpy")
-    if(!title) alert("the title can't be emtpy")
+    if(!code) return alert("the code can't be emtpy")
+    if(!title) return alert("the title can't be emtpy")
     if(!description) setDescription("");
-    dispatch(postCourse({code,title,description}));
-    
+    if(code && title){
+      dispatch(postCourse({code,title,description}));
+    }
   }
 
   return (

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
-import { getStudents, postStudent } from '../../../redux/reducers/studentReducer';
+import {  postStudent } from '../../../redux/reducers/studentReducer';
 import { useDispatch } from 'react-redux';
 import "./style.css"
 

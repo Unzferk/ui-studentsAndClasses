@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setFetchMessage } from '../../../redux/reducers/global-message-reducer/fetchMessageReducer';
-import { DEFAULT_FETCH_MESSAGE, DEFAULT_FETCH_STATUS, DEFAULT_FETCH_TYPE, DELETE_STUDENT_SUCCESS, POST_STUDENT_FAILURE, POST_STUDENT_SUCCESS, UPDATE_STUDENT_SUCCESS } from '../../../redux/reducers/global-message-reducer/messages';
+import { setFetchMessageDefault } from '../../../redux/reducers/global-message-reducer/fetchMessageReducer';
+import {  DELETE_STUDENT_SUCCESS, POST_STUDENT_FAILURE, POST_STUDENT_SUCCESS, UPDATE_STUDENT_SUCCESS } from '../../../redux/reducers/global-message-reducer/messages';
 import { getStudents, setStudentDetails } from '../../../redux/reducers/studentReducer';
 import './style.css';
 
@@ -21,11 +21,11 @@ const StudentTable = () => {
     if(type===POST_STUDENT_SUCCESS || type===DELETE_STUDENT_SUCCESS || type===UPDATE_STUDENT_SUCCESS){
       dispatch(getStudents());
       alert("SUCCESSFUL !")
-      dispatch(setFetchMessage({status:DEFAULT_FETCH_STATUS, message:DEFAULT_FETCH_MESSAGE, type:DEFAULT_FETCH_TYPE}));
+      dispatch(setFetchMessageDefault());
     }
     if(type===POST_STUDENT_FAILURE){
       alert("message: "+message);
-      dispatch(setFetchMessage({status:DEFAULT_FETCH_STATUS, message:DEFAULT_FETCH_MESSAGE, type:DEFAULT_FETCH_TYPE}));
+      dispatch(setFetchMessageDefault());
     }
   }, [type])
 

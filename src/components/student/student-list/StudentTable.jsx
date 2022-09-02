@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setFetchMessageDefault } from '../../../redux/reducers/global-message-reducer/fetchMessageReducer';
 import {  DELETE_STUDENT_SUCCESS, POST_STUDENT_FAILURE, POST_STUDENT_SUCCESS, UPDATE_STUDENT_SUCCESS } from '../../../redux/reducers/global-message-reducer/messages';
 import { getStudents, setStudentDetails } from '../../../redux/reducers/studentReducer';
+import ModalMessage from '../../global/ModalMessage';
+import useModal from '../../hooks/useModal';
 import './style.css';
 
 const searchKeys = ["studentId","firstName","lastName"];
@@ -12,7 +14,8 @@ const StudentTable = () => {
   const [search, setSearch] = useState("")
   const { students } = useSelector(state => state.students);
   const { type, message } = useSelector(state => state.fetch);
-
+  const  {showModal, mTitle, setMtitle, mMessage, setMmessage, mShow} = useModal();
+  
   const setStudentInfo = (student) =>{
     dispatch(setStudentDetails(student));
   }
@@ -20,11 +23,15 @@ const StudentTable = () => {
   useEffect(() => { 
     if(type===POST_STUDENT_SUCCESS || type===DELETE_STUDENT_SUCCESS || type===UPDATE_STUDENT_SUCCESS){
       dispatch(getStudents());
-      alert("SUCCESSFUL !")
+      setMtitle("SUCCESSFUL");
+			setMmessage("Your request has been completed successfully");
+			showModal();
       dispatch(setFetchMessageDefault());
     }
-    if(type===POST_STUDENT_FAILURE){
-      alert("message: "+message);
+    if(type===POST_STUDENT_FAILURE ){
+      setMtitle("Error");
+			setMmessage(message);
+      showModal();
       dispatch(setFetchMessageDefault());
     }
   }, [type])
@@ -74,7 +81,9 @@ const StudentTable = () => {
           </tbody>
         </table>
       </div>
+      <ModalMessage title={mTitle} message={mMessage} show= {mShow} setModal={showModal}/>
     </div>
+    
   )
 }
 export default StudentTable

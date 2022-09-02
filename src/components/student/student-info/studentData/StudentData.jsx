@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { deleteStudent, setStudentDetails, updateStudent } from '../../../../redux/reducers/studentReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_STUDENT_SUCCESS } from '../../../../redux/reducers/global-message-reducer/messages';
+import ModalMessage from '../../../global/ModalMessage';
+import useModal from '../../../hooks/useModal';
 
 const StudentData = () => {
 
@@ -11,6 +13,7 @@ const StudentData = () => {
 	const { studentDetails } = useSelector(state => state.students);
 	const { type } = useSelector(state => state.fetch);
 	const dispatch = useDispatch();
+	const  {showModal, mTitle, setMtitle, mMessage, setMmessage, mShow} = useModal();
 
 	useEffect(() => {
 	  if(type === DELETE_STUDENT_SUCCESS){
@@ -22,15 +25,21 @@ const StudentData = () => {
 		if(studentId){
 			dispatch(deleteStudent({ studentId }));
 		}else{
-			alert("You should select a course from the list first")
+			setMtitle("Error");
+			setMmessage("You should select a student from the list first");
+			showModal();
 		}
 	}
 	const handleUpdate = async (studentId) => {
-		if(!firstName) alert("FirstName field can't be empty")
-		if(!lastName) alert("LastName field can't be empty")
-		let studentUpdated = {...studentDetails, firstName, lastName}
-		dispatch(updateStudent({studentId,studentUpdated}));
-		setEditMode(false);
+		if(!firstName || !lastName){
+			setMtitle("Error");
+			setMmessage("First and Last Name are required");
+			showModal();
+		 }else{
+			let studentUpdated = {...studentDetails, firstName, lastName}
+			dispatch(updateStudent({studentId,studentUpdated}));
+			setEditMode(false);
+		 }
 	}
 
 	const handleEditMode = (studentId) =>{
@@ -39,7 +48,9 @@ const StudentData = () => {
 			setLastName(studentDetails.lastName);
 			setEditMode(true);
 		}else{
-			alert("You should select a course from the list first")
+			setMtitle("Error");
+			setMmessage("You should select a student from the list first");
+			showModal()
 		}
 	}
 
@@ -105,6 +116,7 @@ const StudentData = () => {
 					</tr>
 				</tbody>
 			</table>
+			<ModalMessage title={mTitle} message={mMessage} show= {mShow} setModal={showModal}/>
 		</>
 	)
 }

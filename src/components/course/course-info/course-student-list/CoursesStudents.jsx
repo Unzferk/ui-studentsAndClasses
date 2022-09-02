@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getStudentsFromCourse, setStudentsInCourse } from '../../../../redux/reducers/courseReducer';
 import {  setFetchMessageDefault } from '../../../../redux/reducers/global-message-reducer/fetchMessageReducer';
 import { DELETE_COURSE_SUCCESS, DELETE_STUDENT_FROM_COURSE_FAILURE, DELETE_STUDENT_FROM_COURSE_SUCCESS, POST_STUDENT_INTO_COURSE_FAILURE, POST_STUDENT_INTO_COURSE_SUCCESS } from '../../../../redux/reducers/global-message-reducer/messages';
+import ModalMessage from '../../../global/ModalMessage';
+import useModal from '../../../hooks/useModal';
 
 const CoursesStudents = () => {
     const { studentsInCourse } = useSelector(state => state.courses);
     const { code } = useSelector(state=> state.courses.courseDetails)
     const { type, message } = useSelector(state => state.fetch);
+    const  {showModal, mTitle, setMtitle, mMessage, setMmessage, mShow} = useModal();
 
     const dispatch = useDispatch();
 
@@ -18,7 +21,9 @@ const CoursesStudents = () => {
         
       }
       if(type===POST_STUDENT_INTO_COURSE_FAILURE || type===DELETE_STUDENT_FROM_COURSE_FAILURE){
-        alert(message);
+        setMtitle("Error");
+        setMmessage(message);
+        showModal();
         dispatch(setFetchMessageDefault());
       }
       if(type === DELETE_COURSE_SUCCESS){
@@ -50,6 +55,7 @@ const CoursesStudents = () => {
             </tbody>
           </table>
         </div>
+        <ModalMessage title={mTitle} message={mMessage} show= {mShow} setModal={showModal}/> 
       </div>
     )
 }

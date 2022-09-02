@@ -70,13 +70,17 @@ function* removeStudentFromCourse(action) {
     const { code } = action.payload;
     const { studentId } = action.payload;
     const url = `${process.env.REACT_APP_API_URL}/v1/course/${code}/${studentId}`;
-    const response = yield axios.delete(url);
+    const response = yield axios.delete(url).catch(function (error) {
+        if (error.response) {
+            return error.response
+        }
+    });;
     if (response.status === 202) {
         yield put(courseIsLoadingFalse(response.data));
         yield put(setFetchMessage({ status: response.status, message: response.message, type: DELETE_STUDENT_FROM_COURSE_SUCCESS }));
     } else {
         yield put(courseIsLoadingFalse(response.data));
-        yield put(setFetchMessage({ status: response.status, message: response.message, type: DELETE_STUDENT_FROM_COURSE_FAILURE }));
+        yield put(setFetchMessage({ status: response.status, message: response.data.message, type: DELETE_STUDENT_FROM_COURSE_FAILURE }));
     }
 }
 

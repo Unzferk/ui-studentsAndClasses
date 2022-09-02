@@ -3,8 +3,10 @@ import { deleteCourse, setCourseDetails, updateCourse } from '../../../../redux/
 import { useDispatch, useSelector } from 'react-redux';
 import '../styles.css';
 import { DELETE_COURSE_SUCCESS } from '../../../../redux/reducers/global-message-reducer/messages';
-
+import useModal from '../../../hooks/useModal';
+import ModalMessage from '../../../global/ModalMessage';
 const CourseData = () => {
+	const  {  showModal, mTitle, setMtitle, mMessage, setMmessage, mShow } = useModal();
 	const [editMode, setEditMode] = useState(false);
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
@@ -22,15 +24,22 @@ const CourseData = () => {
 		if (code) {
 			dispatch(deleteCourse({ code }));
 		} else {
-			alert("You should select a course from the list first")
+			setMtitle("Error");
+			setMmessage("You should select a course from the list first")
+			showModal();
 		}
 	}
 	const handleUpdate = async (code) => {
-		if (!title) return alert("Title field can't be empty")
-		if (!description) setDescription("");
-		let courseUpdated = { ...courseDetails, title, description, students:null }
-		dispatch(updateCourse({ code, courseUpdated }));
-		setEditMode(false);
+		if (!title){
+			setMtitle("Error");
+			setMmessage("Title field should not be empty")
+			showModal();
+		}else {
+			if (!description) setDescription("");
+			let courseUpdated = { ...courseDetails, title, description, students:null }
+			dispatch(updateCourse({ code, courseUpdated }));
+			setEditMode(false);
+		}
 	}
 
 	const handleEditMode = (code) => {
@@ -39,7 +48,9 @@ const CourseData = () => {
 			setDescription(courseDetails.description);
 			setEditMode(true);
 		} else {
-			alert("You should select a course from the list first")
+			setMtitle("Actions");
+			setMmessage("You should select a course from the list first")
+			showModal();
 		}
 	}
 
@@ -114,7 +125,7 @@ const CourseData = () => {
 				</div>
 			</div>
 
-
+			<ModalMessage title={mTitle} message={mMessage} show= {mShow} setModal={showModal}/>
 		</>
 	)
 }

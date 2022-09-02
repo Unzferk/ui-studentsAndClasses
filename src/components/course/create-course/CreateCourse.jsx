@@ -3,21 +3,24 @@ import {  postCourse } from '../../../redux/reducers/courseReducer';
 import { useDispatch } from 'react-redux';
 import "./style.css"
 import ModalMessage from '../../global/ModalMessage';
+import  useModal  from '../../hooks/useModal';
 
 const CreateCourse = () => {
 
   const [code, setCode] = useState("");
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("")
   const [description, setDescription] = useState("");
-  const [modal, setModal] = useState(false);
-  const showModal = () => setModal(!modal);
   
+  const  {showModal, mTitle, setMtitle, mMessage, setMmessage, mShow} = useModal();
+
   const dispatch = useDispatch();
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if(!code || !title){
-      setModal(true);
+     setMtitle("Error");
+     setMmessage("he field name or title can't be emtpy");
+     showModal();
     }
     if(!description) setDescription("");
     if(code && title){
@@ -61,10 +64,10 @@ const CreateCourse = () => {
           <div className='col col-md-2'>
             <button className="btn btn-primary btn-sm" onClick={(e)=>onSubmit(e)}>Create</button>
           </div>
-
+          <ModalMessage title={mTitle} message={mMessage} show= {mShow} setModal={showModal}/>
         </div>
       </form>
-      <ModalMessage title={"Error"} message={"The field name or title can't be emtpy"} show= {modal} setModal={showModal}/>
+      
     </div>
   )
 }

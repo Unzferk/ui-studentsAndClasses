@@ -4,6 +4,8 @@ import { getCourses, setCourseDetails } from '../../../redux/reducers/courseRedu
 import { POST_COURSE_SUCCESS, POST_COURSE_FAILURE, DEFAULT_FETCH_MESSAGE, DEFAULT_FETCH_STATUS, DEFAULT_FETCH_TYPE, POST_STUDENT_INTO_COURSE_SUCCESS, DELETE_COURSE_SUCCESS, UPDATE_COURSE_SUCCESS } from '../../../redux/reducers/global-message-reducer/messages';
 import { setFetchMessageDefault } from '../../../redux/reducers/global-message-reducer/fetchMessageReducer';
 import './style.css'
+import useModal from '../../hooks/useModal';
+import ModalMessage from '../../global/ModalMessage';
 
 const searchKeys = ["code", "title"];
 
@@ -13,15 +15,20 @@ const CourseTable = () => {
   const [search, setSearch] = useState("")
   const { courses } = useSelector(state => state.courses);
   const { type, message } = useSelector(state => state.fetch);
+  const  {showModal, mTitle, setMtitle, mMessage, setMmessage, mShow} = useModal();
 
   useEffect(() => {
     if (type === POST_COURSE_SUCCESS || type === DELETE_COURSE_SUCCESS || type === UPDATE_COURSE_SUCCESS) {
       dispatch(getCourses());
-      alert("SUCCESSFUL !")
+      setMtitle("SUCCESSFUL");
+      setMmessage("Your request has been completed successfully");
+      showModal();
       dispatch(setFetchMessageDefault());
     }
     if (type === POST_COURSE_FAILURE) {
-      alert("message: " + message);
+      setMtitle("FAILURE");
+      setMmessage(message);
+      showModal();
       dispatch(setFetchMessageDefault());
     }
   }, [type])
@@ -39,7 +46,7 @@ const CourseTable = () => {
   return (
     <div className='container container-course__table pt-3 pb-2 pl-2 pr-2'>
       <div className='title-course h4 row'>
-        <div className='col-4'>Students List</div>
+        <div className='col-4'>Courses List</div>
         <div className='col-8'><input
           className='form-control form-control-sm'
           autoComplete='off'
@@ -74,6 +81,7 @@ const CourseTable = () => {
           </tbody>
         </table>
       </div>
+      <ModalMessage title={mTitle} message={mMessage} show= {mShow} setModal={showModal}/> 
     </div>
   )
 }

@@ -10,3 +10,16 @@
     font-size: small;
     color: crimson;
 }
+
+.create-max-with{
+    width: 100%;
+}
+
+.course-details-max-height{
+    height: 45% ;
+    overflow-y: auto;
+}
+
+.course-info-max-height{
+    height: 80%;
+}

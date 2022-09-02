@@ -20,7 +20,22 @@
 .btn{
     width: 100px !important;
 }
-
+@media (max-width: 1024px) {
+    .btn {
+        height: 24px !important;
+        width: 60px !important;
+        font-size: 10px !important;
+    }
+    .h4{
+        font-size: 18px !important;
+    }
+    .fw-bold{
+        font-size: 14px !important;
+    }
+    body{
+        font-size: 12px !important;
+    }
+}
 .btn-primary{
     background-color: #1E3C70 !important;
     border-color: black !important;
@@ -47,3 +62,4 @@ body{
     font-weight: 200 !important;
     font-size: 12px !important;
 }
+

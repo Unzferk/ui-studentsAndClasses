@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form';
-import { getCourses, postCourse } from '../../../redux/reducers/courseReducer';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react'
+import {  postCourse } from '../../../redux/reducers/courseReducer';
+import { useDispatch } from 'react-redux';
 import "./style.css"
+import ModalMessage from '../../global/ModalMessage';
 
 const CreateCourse = () => {
 
   const [code, setCode] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-
+  const [modal, setModal] = useState(false);
+  const showModal = () => setModal(!modal);
+  
   const dispatch = useDispatch();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if(!code) return alert("the code can't be emtpy")
-    if(!title) return alert("the title can't be emtpy")
+    if(!code || !title){
+      setModal(true);
+    }
     if(!description) setDescription("");
     if(code && title){
       dispatch(postCourse({code,title,description}));
@@ -23,10 +26,10 @@ const CreateCourse = () => {
   }
 
   return (
-    <div className='container container-course mt-2 mb-2 ml-2 mr-2'>
+    <div className='container container-course mt-2 mb-2 ml-2 mr-2 '>
       <div className='title-course h4'> Register a Course </div>
 
-      <form>
+      <form className='create-max-with'>
         <div className='row'>
           <div className='col col-md-2'>
             <input type="text"
@@ -61,7 +64,7 @@ const CreateCourse = () => {
 
         </div>
       </form>
-
+      <ModalMessage title={"Error"} message={"The field name or title can't be emtpy"} show= {modal} setModal={showModal}/>
     </div>
   )
 }

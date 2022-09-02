@@ -45,7 +45,7 @@ const CourseData = () => {
 
 	return (
 		<>
-			<div className='container'>
+			<div className='container course-info-max-height'>
 
 				<table className='container'>
 					<tbody>

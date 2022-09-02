@@ -10,8 +10,8 @@ const CourseInfo = () => {
 
       <div className="row">
 
-        <div className="col-5">
-          <div className="row ">
+        <div className="col-6">
+          <div className="row  course-details-max-height ">
             <div className='title-course h4'> Course Details </div>
             <CourseData />
           </div>
@@ -22,7 +22,7 @@ const CourseInfo = () => {
           </div>
         </div>
 
-        <div className="col-7">
+        <div className="col-6">
           <div className='title-course h4'> Students in this Course </div>
           <CourseStudents />
         </div>

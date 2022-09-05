@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-
 function useModal() {
   const [mTitle, setMtitle] = useState("");
   const [mMessage, setMmessage] = useState("");
@@ -18,4 +17,4 @@ function useModal() {
   }
 }
 
-export default useModal
+export default useModal;

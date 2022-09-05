@@ -3,7 +3,7 @@ import { getStudentsSuccess, postStudentsSuccess, studentIsLoadingFalse, updateS
 import axios from 'axios';
 import { courseIsLoadingFalse, getCoursesSuccess, getStudentsFromCourseSuccess, postCoursesSuccess, updateCourseSuccess } from '../reducers/courseReducer';
 import { setFetchMessage } from '../reducers/global-message-reducer/fetchMessageReducer';
-import { DELETE_COURSE_SUCCESS, DELETE_STUDENT_FROM_COURSE_FAILURE, DELETE_STUDENT_FROM_COURSE_SUCCESS, DELETE_STUDENT_SUCCESS, POST_COURSE_FAILURE, POST_COURSE_SUCCESS, POST_STUDENT_FAILURE, POST_STUDENT_INTO_COURSE, POST_STUDENT_INTO_COURSE_FAILURE, POST_STUDENT_INTO_COURSE_SUCCESS, POST_STUDENT_SUCCESS, UPDATE_COURSE_SUCCESS, UPDATE_STUDENT_SUCCESS } from '../reducers/global-message-reducer/messages';
+import { DELETE_COURSE_SUCCESS, DELETE_STUDENT_FROM_COURSE_FAILURE, DELETE_STUDENT_FROM_COURSE_SUCCESS, DELETE_STUDENT_SUCCESS, POST_COURSE_FAILURE, POST_COURSE_SUCCESS, POST_STUDENT_FAILURE, POST_STUDENT_INTO_COURSE_FAILURE, POST_STUDENT_INTO_COURSE_SUCCESS, POST_STUDENT_SUCCESS, UPDATE_COURSE_SUCCESS, UPDATE_STUDENT_SUCCESS } from '../reducers/global-message-reducer/messages';
 
 function* obtainStudents() {
     const url = `${process.env.REACT_APP_API_URL}/v1/student`;

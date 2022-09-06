@@ -52,7 +52,7 @@ function* createCourse(action) {
 function* addStudentIntoCourse(action) {
     const { code } = action.payload;
     const { studentId } = action.payload;
-    const url = `${process.env.REACT_APP_API_URL}/v1/course/${code}/${studentId}`;
+    const url = `${process.env.REACT_APP_API_URL}/v1/course/${code}/student/${studentId}`;
     const response = yield axios.put(url).catch(function (error) {
         if (error.response) {
             return error.response
@@ -69,7 +69,7 @@ function* addStudentIntoCourse(action) {
 function* removeStudentFromCourse(action) {
     const { code } = action.payload;
     const { studentId } = action.payload;
-    const url = `${process.env.REACT_APP_API_URL}/v1/course/${code}/${studentId}`;
+    const url = `${process.env.REACT_APP_API_URL}/v1/course/${code}/student/${studentId}`;
     const response = yield axios.delete(url).catch(function (error) {
         if (error.response) {
             return error.response

@@ -4,8 +4,8 @@ import {
   Route,
   Navigate
 } from 'react-router-dom';
-import { Navigation } from '../components/global/navbar';
-import Course from '../pages/course/course';
+import { Navigation } from '../components/global/Navbar';
+import Course from '../pages/course/Course';
 import Student from '../pages/student/Student'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
